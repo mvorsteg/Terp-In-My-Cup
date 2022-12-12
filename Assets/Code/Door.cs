@@ -17,8 +17,9 @@ public class Door : ButtonReceiver
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         audioSource = GetComponent<AudioSource>();
         closedPos = transform.position;   
         openPos = closedPos + openOffset; 
@@ -27,6 +28,7 @@ public class Door : ButtonReceiver
     protected override void Activate()
     {
         base.Activate();
+        Debug.Log(transform.name + " active");
         if (!isMoving)
         {
             StartCoroutine(Move());
@@ -47,7 +49,7 @@ public class Door : ButtonReceiver
         isMoving = true;
         elapsedTime = activated ? 0 : timeToMove;
         audioSource.Play();
-        while (elapsedTime < timeToMove && elapsedTime >= 0)
+        while (elapsedTime <= timeToMove && elapsedTime >= 0)
         {
             if (activated)
             {

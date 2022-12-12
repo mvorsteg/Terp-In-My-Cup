@@ -2,24 +2,37 @@ using UnityEngine;
 
 public class ButtonReceiver : MonoBehaviour
 {
-    public Button[] requiredButtons;
+    [System.Serializable]
+    public class ButtonLink
+    {
+        public Button button;
+        public bool invert = false;
+    }
+
+    public ButtonLink[] requiredButtons;
+    public bool mainReceiver = false;
 
     protected int pressedButtons;
     protected bool activated = false;
 
     protected virtual void Awake()
     {
-        foreach (Button b in requiredButtons)
+        foreach (ButtonLink b in requiredButtons)
         {
-            b.receiver = this;
+            b.button.receivers.Add((this, b.invert));
         }
+    }
+
+    protected virtual void Start()
+    {
+        
     }
 
     public void SetButton(bool val)
     {
         if (val)
         {
-            pressedButtons++;
+            pressedButtons = Mathf.Clamp(pressedButtons + 1, 0, requiredButtons.Length);
             if (pressedButtons == requiredButtons.Length && !activated)
             {
                 Activate();
@@ -27,7 +40,7 @@ public class ButtonReceiver : MonoBehaviour
         }
         else
         {
-            pressedButtons--;
+            pressedButtons = Mathf.Clamp(pressedButtons - 1, 0, requiredButtons.Length);
             if (activated)
             {
                 Deactivate();
@@ -37,8 +50,11 @@ public class ButtonReceiver : MonoBehaviour
 
     protected virtual void Activate()
     {
-        UI.PlayDing();
         activated = true;
+        if (mainReceiver)
+        {
+            UI.PlayDing();
+        }
     }
 
     protected virtual void Deactivate()

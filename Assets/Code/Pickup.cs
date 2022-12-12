@@ -25,7 +25,7 @@ public class Pickup : MonoBehaviour
             {
                 if (hit.transform.tag == "Pickup")
                 {
-                    pickupText.text = "[E] Pickup " + hit.transform.name;
+                    pickupText.text = "[E] Pick Up " + hit.transform.name;
                 }
             }
             else
@@ -52,6 +52,7 @@ public class Pickup : MonoBehaviour
     {
         obj.transform.position = Vector3.Lerp(obj.transform.position, mainCamera.transform.position + mainCamera.transform.forward * distance, Time.deltaTime * smooth);
         //obj.GetComponent<Rigidbody>().MovePosition(mainCamera.transform.position + mainCamera.transform.forward * distance);
+        //Debug.Log(Vector3.Distance(mainCamera.transform.position, obj.transform.position));
     }
 
     private void PickupObject()
