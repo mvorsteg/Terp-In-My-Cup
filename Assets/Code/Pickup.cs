@@ -9,7 +9,7 @@ public class Pickup : MonoBehaviour
     public TextMeshProUGUI pickupText;
 
     public GameObject mainCamera;
-    private GameObject carriedObject;
+    private Transform carriedObject;
     private bool carrying = false;
     
     private void Update()
@@ -48,9 +48,17 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    private void Carry(GameObject obj)
+    public void Throw()
     {
-        obj.transform.position = Vector3.Lerp(obj.transform.position, mainCamera.transform.position + mainCamera.transform.forward * distance, Time.deltaTime * smooth);
+        if (carrying)
+        {
+            
+        }
+    }
+
+    private void Carry(Transform obj)
+    {
+        obj.position = Vector3.Lerp(obj.transform.position, mainCamera.transform.position + mainCamera.transform.forward * distance, Time.deltaTime * smooth);
         //obj.GetComponent<Rigidbody>().MovePosition(mainCamera.transform.position + mainCamera.transform.forward * distance);
         //Debug.Log(Vector3.Distance(mainCamera.transform.position, obj.transform.position));
     }
@@ -64,10 +72,10 @@ public class Pickup : MonoBehaviour
             if (hit.transform.tag == "Pickup")
             {
                 carrying = true;
-                carriedObject = hit.transform.gameObject;
+                carriedObject = hit.transform;
                 carriedObject.GetComponent<Rigidbody>().useGravity = false;
                 //carriedObject.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-                pickupText.text = "[E] Drop " + carriedObject.transform.name;
+                pickupText.text = "[E] Drop " + carriedObject.name;
             }
         }
     }

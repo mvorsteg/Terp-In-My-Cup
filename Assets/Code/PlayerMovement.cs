@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed = 12f;
     public float jumpHeight = 3f;
+    public float lookSpeed = 100f;
     private CharacterController cc;
     public CameraController cameraController;
     private AudioSource audioSource;
@@ -34,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        cameraController.Rotate(look.x, look.y);
+        cameraController.Rotate(look.x * lookSpeed, look.y * lookSpeed);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         //hitColliders = Physics.OverlapSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)

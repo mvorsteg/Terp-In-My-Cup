@@ -25,6 +25,7 @@ public class PlayerInput : MonoBehaviour
         controls.Gameplay.Jump.performed += ctx => playerMovement.Jump();
 
         controls.Gameplay.Pickup.performed += ctx => pickup.DropPickup();
+        controls.Gameplay.Throw.performed += ctx => pickup.Throw();
 
         //controls.Gameplay.Use.performed += ctx => Interaction.Go();
 
